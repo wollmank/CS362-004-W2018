@@ -19,7 +19,7 @@ char inputChar()
 
 char* inputString()
 {
-	char letters[] = "rest\0";
+	char letters[] = "rest";
 	int i, j;
 	char s[6];
 	
