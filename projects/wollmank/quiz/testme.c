@@ -21,7 +21,7 @@ char* inputString()
 {
 	char letters[] = "rest\0";
 	int i, j;
-	char s[5];
+	char s[6];
 	
 	for(i=0; i < 6; i++){
 		j = random() % 5;
