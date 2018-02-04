@@ -321,6 +321,7 @@ int supplyCount(int card, struct gameState *state) {
   return state->supplyCount[card];
 }
 
+//TEST
 int fullDeckCount(int player, int card, struct gameState *state) {
   int i;
   int count = 0;
@@ -386,7 +387,7 @@ int endTurn(struct gameState *state) {
 
   return 0;
 }
-
+//TEST
 int isGameOver(struct gameState *state) {
   int i;
   int j;
@@ -413,7 +414,7 @@ int isGameOver(struct gameState *state) {
 
   return 0;
 }
-
+//TEST
 int scoreFor (int player, struct gameState *state) {
 
   int i;
@@ -1102,7 +1103,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	
   return -1;
 }
-
+//TEST
 int discardCard(int handPos, int currentPlayer, struct gameState *state, int trashFlag)
 {
 	
@@ -1210,6 +1211,7 @@ int updateCoins(int player, struct gameState *state, int bonus)
 
 void adventurerFunc(int drawntreasure, int currentPlayer, int z, int temphand[], struct gameState *state)
 {
+
 	while(drawntreasure<2){
 	if (state->deckCount[currentPlayer] < 0){//if the deck is empty we need to shuffle discard and add to deck
 	  shuffle(currentPlayer, state);
