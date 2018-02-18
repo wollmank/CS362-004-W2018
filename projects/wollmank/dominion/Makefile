@@ -1,6 +1,12 @@
+###############################################
+#Kyle Wollman
+#CS362-400-W2018
+#Assignment 4 - Random testing
+###############################################
+
 CFLAGS = -Wall -fpic -coverage -lm
-SRCS = unittest1.c unittest2.c unittest3.c unittest4.c cardtest1.c cardtest2.c cardtest3.c cardtest4.c 
-default: unittestresults.out
+SRCS = randomtestadventurer.c randomtestcard1.c randomtestcard2.c
+default: randomtestresults.out
 
 rngs.o: rngs.h rngs.c
 	gcc -c rngs.c -g  $(CFLAGS)
@@ -8,50 +14,46 @@ rngs.o: rngs.h rngs.c
 dominion.o: dominion.h dominion.c rngs.o
 	gcc -c dominion.c -g  $(CFLAGS)
 
-unittestresults.out: $(SRCS) dominion.o rngs.o
-	echo "Result for running unit and card tests" > unittestresults.out
+randomtestresults.out: $(SRCS) dominion.o rngs.o
+	echo "Result for running random tests on Adventurer" > randomtestadventurer.out
+	echo "randomtestadventurer.c" >> randomtestadventurer.out
+	gcc -o randomtestadventurer -g randomtestadventurer.c dominion.o rngs.o $(CFLAGS)
+	randomtestadventurer >> randomtestadventurer.out
+	gcov dominion.c
+	sed '1216, 1237!d' dominion.c.gcov >> randomtestadventurer.out
+	gcov -abcfu dominion.c > tempfile.out
+	sed '21, 24!d' tempfile.out >> randomtestadventurer.out
 	
-	echo "unittest1.c:" >> unittestresults.out
-	gcc -o unittest1 -g unittest1.c dominion.o rngs.o $(CFLAGS)
-	unittest1 >> unittestresults.out
-	gcov dominion.c >> unittestresults.out
+	echo "Result for running random tests on Smithy" > randomtestcard1.out
+	echo "randomtestcard1.c:" >> randomtestcard1.out
+	gcc -o randomtestcard1 -g randomtestcard1.c dominion.o rngs.o $(CFLAGS)
+	randomtestcard1 >> randomtestcard1.out
+	gcov dominion.c 
+	sed '1239, 1249!d' dominion.c.gcov >> randomtestcard1.out
+	gcov -abcfu dominion.c > tempfile.out
+	sed '16, 19!d' tempfile.out >> randomtestcard1.out
 	
-	echo "unittest2.c:" >> unittestresults.out
-	gcc -o unittest2 -g unittest2.c dominion.o rngs.o $(CFLAGS)
-	unittest2 >> unittestresults.out
-	gcov dominion.c >> unittestresults.out
+	echo "Result for running random tests on Concil Room" > randomtestcard2.out
+	echo "randomtestcard2.c:" >> randomtestcard2.out
+	gcc -o randomtestcard2 -g randomtestcard2.c dominion.o rngs.o $(CFLAGS)
+	randomtestcard2 >> randomtestcard2.out
+	gcov dominion.c 
+	sed '1251, 1273!d' dominion.c.gcov >> randomtestcard2.out
+	gcov -abcfu dominion.c > tempfile.out
+	sed '11,14!d' tempfile.out >> randomtestcard2.out
+	rm -f tempfile.out
 	
-	echo "unittest3.c:" >> unittestresults.out
-	gcc -o unittest3 -g unittest3.c dominion.o rngs.o $(CFLAGS)
-	unittest3 >> unittestresults.out
-	gcov dominion.c >> unittestresults.out
-		
-	echo "unittest4.c:" >> unittestresults.out
-	gcc -o unittest4 -g unittest4.c dominion.o rngs.o $(CFLAGS)
-	unittest4 >> unittestresults.out
-	gcov dominion.c >> unittestresults.out
-		
-	echo "cardtest1.c:" >> unittestresults.out
-	gcc -o cardtest1 -g cardtest1.c dominion.o rngs.o $(CFLAGS)
-	cardtest1 >> unittestresults.out
-	gcov dominion.c >> unittestresults.out
-		
-	echo "cardtest2.c:" >> unittestresults.out
-	gcc -o cardtest2 -g cardtest2.c dominion.o rngs.o $(CFLAGS)
-	cardtest2 >> unittestresults.out
-	gcov dominion.c >> unittestresults.out
-		
-	echo "cardtest3.c:" >> unittestresults.out
-	gcc -o cardtest3 -g cardtest3.c dominion.o rngs.o $(CFLAGS)
-	cardtest3 >> unittestresults.out
-	gcov dominion.c >> unittestresults.out
-		
-	echo "cardtest4.c:" >> unittestresults.out
-	gcc -o cardtest4 -g cardtest4.c dominion.o rngs.o $(CFLAGS)
-	cardtest4 >> unittestresults.out
-	gcov -abcfu dominion.c >> unittestresults.out
-
-
+randomtestcard1: randomtestcard1.c dominion.o rngs.o
+	gcc -o randomtestcard1 -g randomtestcard1.c dominion.o rngs.o $(CFLAGS)
+	#randomtestcard1
+	#gcov dominion.c
+	
+randomcardtest2: randomtestcard2.c dominion.o rngs.o
+	gcc -o randomcardtest2 -g randomtestcard2.c dominion.o rngs.o $(CFLAGS)
+	
+randomcardtest3: randomtestcard3.c dominion.o rngs.o
+	gcc -o randomcardtest3 -g randomtestcard3.c dominion.o rngs.o $(CFLAGS)
+	
 playdom: dominion.o playdom.c
 	gcc -o playdom playdom.c -g dominion.o rngs.o $(CFLAGS)
 #To run playdom you need to entere: ./playdom <any integer number> like ./playdom 10*/
