@@ -1,0 +1,134 @@
+Bug Report for lewismic version of dominion.c
+
+BUG 1
+==============================
+
+Title: dominion.c - smithy_card() 
+
+Class:
+Moderate Bug
+
+Date: March 04, 2018          
+Reported By: Kyle Wollman   
+Email: wollmank@oregonstate.edu      
+
+
+Product: dominion.c smithy_card()  Version: lewismic
+Platform: CentOS Linux             Version: 7.4.1708 (core)
+
+Is it reproducible: Yes 
+
+Description
+===========
+When a player plays the smithy card instead of having that card added to the
+playedCards array it is trashed.
+
+The bug can be found on line 1280:
+
+discardCard(handPos, currentPlayer, state, 1);
+
+When discardCard is called passing the last argument a value of zero will cause
+a card to be discarded into the playedCards array as is the intent with the
+smithy card. If discardCard is called with a 1 as the last argument the card it
+is passed will be trashed never making it to the playedCards array. This is the
+behavior incited when calling discardCard from smithy_card.
+
+
+Steps to Produce/Reproduce
+--------------------------
+Set up a gameState struct and initialize it using dominion's initializeGame()
+function. Once the gameState is initialized pass it and the hand position to
+smithy_card. After the calling function returns, check the playedCards array for
+the discarded card. It will not be present. 
+
+
+Expected Results
+----------------
+Once the smithy card is played it will be added the playedCards array
+
+
+Actual Results
+--------------
+Once the smithy card is played it is trashed and disappears. 
+
+
+Workarounds
+-----------
+none
+
+Attachments
+-----------
+none
+
+Other Information
+-----------------
+none
+
+BUG 2
+==============================
+
+Title: dominion.c - council_room_card()
+
+Class:
+Serious Bug
+
+Date: March 04, 2018           
+Reported By: Kyle Wollman   
+Email: wollmank@oregonstate.edu      
+
+
+Product: dominion.c - council_room_card()   Version: lewismic
+Platform: CentOS Linux                      Version: 7.4.1708 (Core)
+
+Is it reproducible: Yes 
+
+Description
+===========
+When a player plays the council_room card other player in the game is supposed
+to draw one card. It is not drawing any cards for the other players in the game.
+
+The bug can be found on line 1207:
+
+if ( i == currentPlayer )
+
+When council_room is supposed to draw a card for each player in the game it
+should check to make sure the player being drawn for is not the current player,
+but the if statment shown above only draws a card when the player being drawn
+for is the current player.
+
+
+Steps to Produce/Reproduce
+--------------------------
+Set up a gameState struct and initialize it using dominion's initializeGame()
+function. Once a gameState has been set up pass it to the council_room_card()
+function along with a hand position. After the calling function returns each of
+the players in the game that did not call council_room_card() should have one
+more card in their hand than they did before the call. They will not. 
+
+
+Expected Results
+----------------
+Each player in the game that is not the current player will add one additional
+card to their hand.
+
+
+Actual Results
+--------------
+The current player draws one card for each player in the game and the other
+players don't draw any cards. 
+
+
+Workarounds
+-----------
+none
+
+
+Attachments
+-----------
+none
+
+
+Other Information
+-----------------
+none
+
